@@ -37,6 +37,7 @@ Route::post('/user/save/password', [AuthController::class, 'saveUserPassword'])-
 Route::get('/user/links', [UrlController::class, 'index'])->middleware('auth.in');
 Route::post('/user/links/create', [UrlController::class, 'create'])->middleware('auth.in');
 Route::get('/user/links/edit', [UrlController::class, 'edit'])->middleware('auth.in');
+Route::post('/user/links/edit', [UrlController::class, 'saveEdit'])->middleware('auth.in');
 Route::get('/user/links/delete', [UrlController::class, 'delete'])->middleware('auth.in');
 
 // Redirect - this HAS to stay at the end

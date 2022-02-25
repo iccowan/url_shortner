@@ -27,11 +27,41 @@ class UrlController extends Controller
     }
 
     public function edit(Request $request) {
-        return view('site.links.edit');
+        $url_id = $request->query('url_id');
+        $url = Url::find($url_id);
+
+        if (! $url)
+            return redirect()->back()->with('error', 'That link does not exist');
+
+        if ($url->user_id != Auth::id())
+            return redirect()->back()->with('error', 'You can only edit links that belong to you');
+
+        return view('site.links.edit')->with('url', $url);
     }
 
     public function saveEdit(Request $request) {
-        
+        $request->validate([
+            'url_key' => 'required|unique:urls',
+            'url' => 'required|url'
+        ]);
+
+        $url_id = $request->input('url_id');
+        $url_key = $request->input('url_key');
+        $url = $request->input('url');
+
+        $urlObj = Url::find($url_id);
+
+        if (! $urlObj)
+            return redirect('/user/links')->with('error', 'That link does not exist');
+
+        if ($urlObj->user_id != Auth::id())
+            return redirect('/user/links')->with('error', 'You can only edit your links');
+
+        $urlObj->url_key = $url_key;
+        $urlObj->url = $url;
+        $urlObj->save();
+
+        return redirect('/user/links')->with('error', 'That link has been saved successfully');
     }
 
     public function create(Request $request) {
@@ -56,6 +86,9 @@ class UrlController extends Controller
         
         if (! $url)
             return redirect()->back()->with('error', 'Invalid link');
+
+        if ($url->user_id != Auth::id())
+            return redirect()->back()->with('error', 'You can only delete links that belong to you');
 
         $url->delete();
 
