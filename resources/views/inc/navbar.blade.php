@@ -14,7 +14,7 @@
                         <a class="nav-link" href="/user/links"><i class="fa-solid fa-link"></i> My Links</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/user"><i class="fa-solid fa-user"></i> Welcome, {{ Auth::user()->getName() }}</a>
+                        <a class="nav-link" href="/user"><i class="fa-solid fa-user"></i> Welcome, {{ Auth::user()->name }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>

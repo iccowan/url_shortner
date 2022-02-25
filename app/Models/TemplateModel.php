@@ -19,4 +19,8 @@ class TemplateModel extends Model
                 $model->id = Str::uuid();
         });
     }
+
+    public function getUrlSafeIdAttribute() {
+        return urlencode($this->id);
+    }
 }
