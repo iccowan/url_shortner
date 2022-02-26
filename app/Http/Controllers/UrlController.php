@@ -41,13 +41,13 @@ class UrlController extends Controller
 
     public function saveEdit(Request $request) {
         $request->validate([
-            'url_key' => 'required|unique:urls',
+            'url_key' => 'required|unique:urls|alpha_dash',
             'url' => 'required|url'
         ]);
 
         $url_id = $request->input('url_id');
-        $url_key = $request->input('url_key');
-        $url = $request->input('url');
+        $url_key = trim($request->input('url_key'));
+        $url = trim($request->input('url'));
 
         $urlObj = Url::find($url_id);
 
@@ -61,7 +61,7 @@ class UrlController extends Controller
         $urlObj->url = $url;
         $urlObj->save();
 
-        return redirect('/user/links')->with('error', 'That link has been saved successfully');
+        return redirect('/user/links')->with('success', 'That link has been saved successfully');
     }
 
     public function create(Request $request) {
